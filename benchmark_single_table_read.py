@@ -23,7 +23,7 @@ def main(instance_id, database_id):
             results = snapshot.execute_sql(
                 #  "SELECT * FROM Subscriber s JOIN PlmnProfile p ON s.PlmnProfileId = p.PlmnProfileId WHERE s.UEid = @UEid", 
                  "SELECT * FROM Subscriber s WHERE s.UEid = @UEid", 
-                params={"UEid": str(random.randint(1, num_rows_in_table))},
+                params={"UEid": "UE-" + str(random.randint(1, num_rows_in_table))},
                 param_types={"UEid": spanner.param_types.STRING},
             )
             for row in results:

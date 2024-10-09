@@ -21,9 +21,14 @@ def main(instance_id, database_id):
     def perform_single_read():
         with database.snapshot() as snapshot:
             results = snapshot.execute_sql(
-                 "SELECT * FROM Subscriber s JOIN PlmnProfile p ON s.PlmnProfileId = p.PlmnProfileId WHERE s.UEid = @UEid", 
+                # "SELECT s.UEid,p.OtherPlmnData FROM Subscriber s JOIN PlmnProfile p ON s.PlmnProfileId = p.PlmnProfileId  WHERE s.UEid = @UEid", 
+                # "SELECT s.UEid,p.OtherPlmnData FROM Subscriber@{FORCE_INDEX=PlmnProfilebySubscriber} s JOIN PlmnProfile@{FORCE_INDEX=Plmndatabyprofile} p ON s.PlmnProfileId = p.PlmnProfileId  WHERE s.UEid = @UEid", 
+                #  "SELECT * FROM Subscriber s JOIN@{JOIN_METHOD=HASH_JOIN} PlmnProfile p ON s.PlmnProfileId = p.PlmnProfileId  WHERE s.UEid = @UEid", 
+                # "SELECT * FROM Subscriber_interleaved s JOIN PlmnProfile_interleaved p ON s.PlmnProfileId = p.PlmnProfileId  WHERE s.UEid = @UEid",
+                # "SELECT * FROM Subscriber s JOIN PlmnProfile p ON s.PlmnProfileId = p.PlmnProfileId  WHERE s.UEid = @UEid", 
+                "SELECT * FROM DenormalizedSubscriber s WHERE s.UEid = @UEid", 
                 #  "SELECT * FROM Subscriber s WHERE s.UEid = @UEid", 
-                params={"UEid": str(random.randint(1, num_rows_in_table))},
+                params={"UEid": "UE-" + str(random.randint(1, num_rows_in_table))},
                 param_types={"UEid": spanner.param_types.STRING},
             )
             for row in results:

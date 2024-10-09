@@ -36,7 +36,7 @@ def generate_and_insert_batch(database, batch_num):
             subscription_profile_id = f"{(i % num_subscription_profiles) + 1}"
 
             transaction.insert(  # Use transaction.insert() directly
-                    "Subscriber",
+                    "Subscriber_interleaved",
                     columns=["UEid", "AuthProvisioningProfileId", "PlmnProfileId", "SubscriptionProfileId"],
                     values=[(ueid, auth_profile_id, plmn_profile_id, subscription_profile_id)]
                 )
