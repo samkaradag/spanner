@@ -5,17 +5,24 @@ CREATE TABLE Subscriber (
     SubscriptionProfileId STRING(256) NOT NULL,
 )     PRIMARY KEY (UEid);
 
-CREATE TABLE SubscriptionProfile (
-    SubscriptionProfileId STRING(256) NOT NULL,
-    Name STRING(256),
-    Description STRING(256),
-) PRIMARY KEY (SubscriptionProfileId);
+
+
+INSERT INTO Subscriber (UEid, AuthProvisioningProfileId, PlmnProfileId, SubscriptionProfileId) VALUES
+('UE-samet1', 'AuthProvisioningProfileId 1', 'plmn-profile-1', 'Subscription Profile 1');
 
 CREATE TABLE PlmnProfile (
     PlmnProfileId STRING(256) NOT NULL,
     PlmnId STRING(256), 
     OtherPlmnData STRING(MAX),
 ) PRIMARY KEY (PlmnProfileId);
+
+
+CREATE TABLE SubscriptionProfile (
+    SubscriptionProfileId STRING(256) NOT NULL,
+    Name STRING(256),
+    Description STRING(256),
+) PRIMARY KEY (SubscriptionProfileId);
+
 
 
 INSERT INTO PlmnProfile (PlmnProfileId, PlmnId, OtherPlmnData) VALUES
